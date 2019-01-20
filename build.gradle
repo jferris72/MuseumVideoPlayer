@@ -26,3 +26,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    coroutineVersion = "1.0.1"
+    livedataVersion = "2.0.0"
+    retrofitVersion = "2.4.0"
+    koinVersion = "1.0.2"
+}
