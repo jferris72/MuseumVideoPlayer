@@ -1,9 +1,10 @@
-package com.museum.video
+package com.museum.video.main
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.museum.video.R
 
-class MainActivity : AppCompatActivity() {
+class MainView : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

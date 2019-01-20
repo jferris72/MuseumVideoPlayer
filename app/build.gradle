@@ -43,6 +43,8 @@ dependencies {
     implementation "org.koin:koin-android-scope:$rootProject.koinVersion"
     implementation "org.koin:koin-android-viewmodel:$rootProject.koinVersion"
 
+    implementation 'com.google.android.exoplayer:exoplayer:2.6.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
