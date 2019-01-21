@@ -6,5 +6,6 @@ data class Video(
     val duration: String,
     val name: String,
     val url: String,
-    val id: String
+    val id: String,
+    var failed: Boolean = false
 )

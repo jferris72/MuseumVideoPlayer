@@ -6,7 +6,7 @@ import com.museum.video.data.models.Video
 
 interface VideoDataSource {
 
-    suspend fun getVideoIds(): Response<List<String>>
+    suspend fun getVideoIds(): Response<ArrayList<String>>
     suspend fun getVideo(id: String): Response<Video>
 
 }
