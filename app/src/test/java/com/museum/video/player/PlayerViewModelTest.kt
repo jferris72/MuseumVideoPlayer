@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.museum.video.TestDispatcher
 import com.museum.video.data.Response
-import com.museum.video.data.models.Video
+import com.museum.video.data.models.remote.VideoRemote
 import com.museum.video.data.video.VideoDataSource
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -31,7 +31,7 @@ class PlayerViewModelTest {
     @Test
     fun `Get Url Success`() {
         val url = "url"
-        val video = Video("","","", url,"1")
+        val video = VideoRemote("", "", "", url, "1")
 
         runBlocking {
             whenever(videoRepo.getVideoIds())
@@ -80,9 +80,9 @@ class PlayerViewModelTest {
         val url1 = "url1"
         val url2 = "url2"
         val url3 = "url3"
-        val video1 = Video("","","", url1,"1")
-        val video2 = Video("", "", "", url2, "2")
-        val video3 = Video("", "", "", url3, "3")
+        val video1 = VideoRemote("", "", "", url1, "1")
+        val video2 = VideoRemote("", "", "", url2, "2")
+        val video3 = VideoRemote("", "", "", url3, "3")
 
         runBlocking {
             whenever(videoRepo.getVideoIds())

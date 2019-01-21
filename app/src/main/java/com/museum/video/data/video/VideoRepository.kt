@@ -2,7 +2,8 @@ package com.museum.video.data.video
 
 import com.museum.video.data.AppApi
 import com.museum.video.data.Response
-import com.museum.video.data.models.Video
+import com.museum.video.data.models.local.Video
+import com.museum.video.data.models.remote.VideoRemote
 
 
 class VideoRepository(
@@ -13,7 +14,8 @@ class VideoRepository(
 
     override suspend fun getVideoIds() = try {
         val apiResponse = appApi.getVideoIds().await()
-        Response.Success(apiResponse.ids)
+        if(apiResponse.ids == null) Response.Success(arrayListOf())
+        else Response.Success(apiResponse.ids)
     } catch(e: Exception) {
         Response.Error(e)
     }
@@ -23,8 +25,14 @@ class VideoRepository(
             Response.Success(videos[id] as Video)
         } else {
             val apiResponse = appApi.getVideo(id).await()
-            videos[id] = apiResponse.videoList[0]
-            Response.Success(apiResponse.videoList[0])
+            if(apiResponse.videoList?.get(0)?.url == null) {
+                Response.Error(Throwable("Video not found"))
+            }
+            else {
+                val video = Video(apiResponse.videoList[0].url as String)
+                videos[id] = video
+                Response.Success(video)
+            }
         }
     } catch(e: Exception) {
         Response.Error(e)

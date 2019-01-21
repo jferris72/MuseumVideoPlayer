@@ -1,7 +1,7 @@
 package com.museum.video.data
 
-import com.museum.video.data.models.VideoIdResponse
-import com.museum.video.data.models.VideoResponse
+import com.museum.video.data.models.remote.VideoIdResponse
+import com.museum.video.data.models.remote.VideoResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path

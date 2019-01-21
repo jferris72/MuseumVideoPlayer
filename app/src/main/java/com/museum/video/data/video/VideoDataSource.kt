@@ -1,7 +1,8 @@
 package com.museum.video.data.video
 
 import com.museum.video.data.Response
-import com.museum.video.data.models.Video
+import com.museum.video.data.models.local.Video
+import com.museum.video.data.models.remote.VideoRemote
 
 
 interface VideoDataSource {
