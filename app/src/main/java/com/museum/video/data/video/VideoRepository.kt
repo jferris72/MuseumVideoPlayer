@@ -9,7 +9,7 @@ class VideoRepository(
     private val appApi: AppApi
 ) : VideoDataSource {
 
-    val videos: HashMap<String, Video> = hashMapOf()
+    private val videos: HashMap<String, Video> = hashMapOf()
 
     override suspend fun getVideoIds() = try {
         val apiResponse = appApi.getVideoIds().await()

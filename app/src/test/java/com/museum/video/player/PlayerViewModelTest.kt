@@ -2,7 +2,7 @@ package com.museum.video.player
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.museum.video.common.TestDispatcher
+import com.museum.video.TestDispatcher
 import com.museum.video.data.Response
 import com.museum.video.data.models.Video
 import com.museum.video.data.video.VideoDataSource
@@ -31,7 +31,7 @@ class PlayerViewModelTest {
     @Test
     fun `Get Url Success`() {
         val url = "url"
-        val video = Video("","","",url,"1")
+        val video = Video("","","", url,"1")
 
         runBlocking {
             whenever(videoRepo.getVideoIds())
@@ -42,7 +42,7 @@ class PlayerViewModelTest {
         }
 
         viewModel.getVideoIds()
-        val actual = viewModel.state.value?.videoUrl
+        val actual = (viewModel.action.value?.get() as PlayerAction.ShowVideo).url
         assertEquals("url", actual)
     }
 
@@ -58,7 +58,7 @@ class PlayerViewModelTest {
         }
 
         viewModel.getVideoIds()
-        val actual = (viewModel.action.value?.get() as? PlayerAction.Error)?.e
+        val actual = (viewModel.action.value?.get() as? PlayerAction.ShowError)?.e
         assertEquals(error, actual)
     }
 
@@ -71,7 +71,7 @@ class PlayerViewModelTest {
         }
 
         viewModel.getVideoIds()
-        val actual = (viewModel.action.value?.get() as? PlayerAction.Error)?.e
+        val actual = (viewModel.action.value?.get() as? PlayerAction.ShowError)?.e
         assertEquals(error, actual)
     }
 
@@ -99,18 +99,19 @@ class PlayerViewModelTest {
         }
 
         viewModel.getVideoIds()
-        var actual = viewModel.state.value?.videoUrl
+        var actual = (viewModel.action.value?.get() as PlayerAction.ShowVideo).url
         assertEquals(url1, actual)
 
         viewModel.nextVideo()
-        actual = viewModel.state.value?.videoUrl
+        actual = (viewModel.action.value?.get() as PlayerAction.ShowVideo).url
         assertEquals(url2, actual)
 
         viewModel.nextVideo()
-        assertEquals(url3, viewModel.state.value?.videoUrl)
+        actual = (viewModel.action.value?.get() as PlayerAction.ShowVideo).url
+        assertEquals(url3, actual)
 
         viewModel.nextVideo()
-        actual = viewModel.state.value?.videoUrl
+        actual = (viewModel.action.value?.get() as PlayerAction.ShowVideo).url
         assertEquals(url1, actual)
     }
 

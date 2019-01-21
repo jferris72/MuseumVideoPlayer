@@ -4,6 +4,5 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 
 
 data class PlayerState(
-    val player: SimpleExoPlayer? = null,
-    val videoUrl: String? = null
+    val player: SimpleExoPlayer? = null
 )

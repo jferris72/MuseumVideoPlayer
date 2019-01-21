@@ -1,4 +1,4 @@
-package com.museum.video.common
+package com.museum.video
 
 import com.museum.video.common.base.BaseDispatcher
 import kotlinx.coroutines.CoroutineDispatcher

@@ -29,14 +29,8 @@ class PlayerActivity : AppCompatActivity(), Player.EventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupState()
+        setupPlayer()
         setupAction()
-    }
-
-    private fun setupState() {
-        viewModel.state.observe(this, Observer {
-            if(it != null) onRender(it)
-        })
     }
 
     private fun setupAction() {
@@ -45,38 +39,36 @@ class PlayerActivity : AppCompatActivity(), Player.EventListener {
         })
     }
 
-    private fun onRender(state: PlayerState) {
-        if(exoPlayer.player == null && state.player != null) {
-            exoPlayer.player = state.player
-        } else if(exoPlayer.player == null && state.videoUrl != null) {
-            createPlayer(state.videoUrl).also {
-                viewModel.setPlayer(it)
-            }
-        } else if(state.videoUrl != null) {
-            exoPlayer.player.prepare(createMediaSource(state.videoUrl))
+    private fun setupPlayer() {
+        if(exoPlayer.player == null && viewModel.player != null) {
+            exoPlayer.player = viewModel.player
+        } else {
+            exoPlayer.player = createPlayer().also { viewModel.player = it }
         }
     }
 
     private fun onAction(action: Action<PlayerAction>) {
         val playerAction = action.get()
         when(playerAction) {
-            is PlayerAction.Error -> {
-                showError(playerAction.e)
-            }
+            is PlayerAction.ShowError -> showError(playerAction.e)
+            is PlayerAction.ShowVideo -> showVideo(playerAction.url)
         }
     }
 
     private fun showError(e: Throwable) {
-        if(e.message != null) Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
     }
 
-    private fun createPlayer(url: String): SimpleExoPlayer {
+    private fun showVideo(url: String) {
+        exoPlayer.player?.prepare(createMediaSource(url))
+    }
+
+    private fun createPlayer(): SimpleExoPlayer {
         val videoTrackSelectionFactory = AdaptiveTrackSelection.Factory(DefaultBandwidthMeter())
         val trackSelector = DefaultTrackSelector(videoTrackSelectionFactory)
         val player = ExoPlayerFactory.newSimpleInstance(this, trackSelector)
 
         player.addListener(this)
-        player.prepare(createMediaSource(url))
         player.playWhenReady = true
 
         return player
@@ -96,9 +88,7 @@ class PlayerActivity : AppCompatActivity(), Player.EventListener {
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         when(playbackState) {
-            Player.STATE_ENDED -> {
-                viewModel.nextVideo()
-            }
+            Player.STATE_ENDED -> viewModel.nextVideo()
         }
     }
 
