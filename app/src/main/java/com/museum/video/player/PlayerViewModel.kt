@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class PlayerViewModel(
     dispatcher: BaseDispatcher,
     private val videoDataSource: VideoDataSource
-) : BaseViewModel(dispatcher) {
+) : BaseViewModel<PlayerAction>(dispatcher) {
 
     val state = MutableLiveData<PlayerState>()
     private var playerState = PlayerState()
@@ -27,7 +27,7 @@ class PlayerViewModel(
         getVideoIds()
     }
 
-    private fun getVideoIds() = launch {
+    fun getVideoIds() = launch {
         val response = videoDataSource.getVideoIds()
         when(response) {
             is Response.Success -> {
@@ -35,11 +35,12 @@ class PlayerViewModel(
                 getVideo()
             }
             is Response.Error -> {
+                action(PlayerAction.Error(response.e))
             }
         }
     }
 
-    private fun getVideo() = launch {
+    fun getVideo() = launch {
         if(currentVideo >= videoIds.size) currentVideo = 0
 
         val response = videoDataSource.getVideo(videoIds[currentVideo])
@@ -48,6 +49,7 @@ class PlayerViewModel(
                 playerState = playerState.copy(videoUrl = response.data.url)
             }
             is Response.Error -> {
+                action(PlayerAction.Error(response.e))
             }
         }
     }
@@ -61,7 +63,7 @@ class PlayerViewModel(
         getVideo()
     }
 
-    fun playerError(error: ExoPlaybackException?) {
+    fun playerError() {
         nextVideo()
     }
 

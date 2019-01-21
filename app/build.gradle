@@ -40,6 +40,7 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.livedataVersion"
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$rootProject.livedataVersion"
+    implementation "android.arch.core:core-testing:$rootProject.livedataVersion"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutineVersion"
@@ -51,6 +52,8 @@ dependencies {
     implementation "org.koin:koin-android:$rootProject.koinVersion"
     implementation "org.koin:koin-android-scope:$rootProject.koinVersion"
     implementation "org.koin:koin-android-viewmodel:$rootProject.koinVersion"
+
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
 
     implementation 'com.google.android.exoplayer:exoplayer:2.6.0'
 
